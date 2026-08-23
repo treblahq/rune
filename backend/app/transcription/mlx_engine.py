@@ -2,10 +2,17 @@ from __future__ import annotations
 
 import asyncio
 import math
+import os
 from pathlib import Path
 from typing import Any
 
 from app.transcripts.types import Segment, Transcript, Word
+
+
+def configure_model_cache(models_path: Path) -> None:
+    models_path.mkdir(parents=True, exist_ok=True)
+    os.environ["HF_HOME"] = str(models_path)
+    os.environ["HF_HUB_CACHE"] = str(models_path / "hub")
 
 
 def _number(value: Any, fallback: float = 0.0) -> float:
@@ -53,14 +60,16 @@ def transcript_from_mlx_result(job_id: str, result: dict[str, Any]) -> Transcrip
 
 
 class MlxWhisperEngine:
-    def __init__(self, *, model: str) -> None:
+    def __init__(self, *, model: str, models_path: Path) -> None:
         self._model = model
+        self._models_path = models_path
 
     async def transcribe(self, job_id: str, audio_path: Path) -> Transcript:
         result = await asyncio.to_thread(self._transcribe_sync, audio_path)
         return transcript_from_mlx_result(job_id, result)
 
     def _transcribe_sync(self, audio_path: Path) -> dict[str, Any]:
+        configure_model_cache(self._models_path)
         import mlx_whisper
 
         result: dict[str, Any] = mlx_whisper.transcribe(

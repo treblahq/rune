@@ -89,7 +89,10 @@ def create_app(
             download_workers=active_settings.download_workers,
             preparation_workers=active_settings.preparation_workers,
         )
-        transcription_engine = engine or MlxWhisperEngine(model=active_settings.whisper_model)
+        transcription_engine = engine or MlxWhisperEngine(
+            model=active_settings.whisper_model,
+            models_path=ensured_paths.models,
+        )
         scheduler = JobScheduler(
             jobs=jobs,
             transcripts=transcripts,
