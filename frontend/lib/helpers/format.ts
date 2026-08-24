@@ -1,6 +1,6 @@
 export function formatDuration(value: number | null): string {
   if (value === null || !Number.isFinite(value)) {
-    return "—";
+    return "Sem duração";
   }
   const total = Math.max(0, Math.round(value));
   const hours = Math.floor(total / 3_600);

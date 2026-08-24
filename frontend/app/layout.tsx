@@ -5,9 +5,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Rune — vídeo e áudio para texto",
+  title: "Rune: vídeo e áudio para texto",
   description: "Transcreva vídeos e áudios localmente, sem enviar seus arquivos para a nuvem.",
-  icons: { icon: "/rune.svg" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">): React.ReactNode {

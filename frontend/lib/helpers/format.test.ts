@@ -6,7 +6,7 @@ describe("formatDuration", () => {
   it("formats short and long media without noise", () => {
     expect(formatDuration(65)).toBe("1:05");
     expect(formatDuration(3_661)).toBe("1:01:01");
-    expect(formatDuration(null)).toBe("—");
+    expect(formatDuration(null)).toBe("Sem duração");
   });
 });
 
